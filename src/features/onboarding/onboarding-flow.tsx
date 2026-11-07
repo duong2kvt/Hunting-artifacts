@@ -18,7 +18,7 @@ import Animated, {
 
 import { DesignCanvas } from "@/components/design-canvas";
 import { PaperButton } from "@/components/paper-button";
-import { useProfile } from "@/state/profile";
+import { today, useProfile } from "@/state/profile";
 import { colors, fonts, type as typeStyles } from "@/theme/tokens";
 
 import { ArtifactReveal } from "./artifact-reveal";
@@ -37,7 +37,7 @@ const LOADING_MS = 2400;
  * Dùng một màn hình + state machine để nền/mascot chuyển cảnh liền mạch như Smart Animate.
  */
 export function OnboardingFlow() {
-  const { name, avatar, setName, setAvatar } = useProfile();
+  const { name, avatar, setName, setAvatar, update } = useProfile();
   const [phase, setPhase] = useState<Phase>("loading");
   const [line, setLine] = useState(0);
   const [typed, setTyped] = useState(false);
@@ -199,7 +199,10 @@ export function OnboardingFlow() {
           name={name}
           selected={avatar}
           onSelect={setAvatar}
-          onDone={() => router.replace("/home")}
+          onDone={() => {
+            update({ onboarded: true, joinedAt: today() });
+            router.replace("/tutorial");
+          }}
         />
       ) : null}
     </DesignCanvas>

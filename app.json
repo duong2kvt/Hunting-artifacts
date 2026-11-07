@@ -41,6 +41,13 @@
             "./assets/fonts/YoungDisplay-Bold.otf"
           ]
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Ứng dụng cần camera để chụp và nhận diện cổ vật trong bảo tàng.",
+          "recordAudioAndroid": false
+        }
       ]
     ],
     "experiments": {

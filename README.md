@@ -17,6 +17,20 @@ npx expo run:ios        # hoặc run:android – cần dev build vì có Skia/Re
 npx expo start --web    # xem nhanh trên trình duyệt
 ```
 
+## Luồng màn hình
+Onboarding → Tutorial (hướng dẫn + vé quà tặng) → 4 tab: **Bảo tàng** (danh sách, bản đồ vùng miền, thông tin / lịch sử / cổ vật / kiến trúc) · **Cổ vật** (bộ sưu tập tem, chi tiết, bưu thiếp) · **Săn ngay** (camera → scan → phần thưởng) · **Hồ sơ** (thành tựu, huy hiệu, vé QR).
+
+- Tiến trình người chơi lưu bằng AsyncStorage (`src/state/profile.tsx`).
+- Nội dung demo nằm ở `src/data/content.ts`.
+- Nhận diện cổ vật đang là bản mô phỏng: `src/features/hunt/recognize.ts` (lần 1 báo sai góc, lần 2 thành công) – thay bằng model/API thật.
+- Web desktop: app hiển thị trong khung điện thoại (`src/components/device-frame.web.tsx`); web trên điện thoại vẫn full màn hình.
+
+## Deploy bản web demo
+```bash
+npx expo export -p web     # xuất ra thư mục dist/
+```
+Upload `dist/` lên host tĩnh (Vercel/Netlify…). Vì là SPA, cấu hình rewrite mọi đường dẫn về `/index.html`.
+
 ## Cấu trúc
 ```
 src/app/                 _layout (font, provider), index (Onboarding), home (placeholder Main)

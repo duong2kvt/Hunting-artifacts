@@ -62,6 +62,7 @@ export function MascotGuide({ pose, text, lineKey, instant, onTyped }: Props) {
   return (
     <Animated.View
       style={styles.guide}
+      pointerEvents="none"
       entering={SlideInDown.springify().damping(16).stiffness(140)}
       exiting={SlideOutDown.duration(320)}
     >
