@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 export function SkiaReady({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    const baseUrl = process.env.EXPO_BASE_URL ?? "";
+    const baseUrl = process.env.EXPO_PUBLIC_BASE_URL ?? "";
     LoadSkiaWeb({ locateFile: (file: string) => `${baseUrl}/${file}` }).then(() =>
       setReady(true),
     );
