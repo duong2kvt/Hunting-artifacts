@@ -19,7 +19,11 @@ type Props = {
  * hiện vẫn được render với màu trong suốt để giữ nguyên layout/xuống dòng
  * (y hệt cách plugin dựng các stage Letter 1…N). Mỗi nhịp hiện thêm một từ.
  */
-export function TypewriterText({
+export function TypewriterText(props: Props) {
+  return <TypewriterLine key={props.text} {...props} />;
+}
+
+function TypewriterLine({
   text,
   instant,
   wordDelay = motion.wordDelayMs,
@@ -31,17 +35,12 @@ export function TypewriterText({
   const [count, setCount] = useState(0);
   const doneRef = useRef(false);
   const onDoneRef = useRef(onDone);
-  onDoneRef.current = onDone;
-
-  // reset khi đổi câu
   useEffect(() => {
-    setCount(0);
-    doneRef.current = false;
-  }, [text]);
+    onDoneRef.current = onDone;
+  }, [onDone]);
 
   useEffect(() => {
     if (instant) {
-      setCount(tokens.length);
       return;
     }
     let interval: ReturnType<typeof setInterval> | undefined;
@@ -63,14 +62,15 @@ export function TypewriterText({
   }, [tokens, instant, wordDelay, startDelay]);
 
   useEffect(() => {
-    if (count >= tokens.length && tokens.length > 0 && !doneRef.current) {
+    if ((instant || count >= tokens.length) && tokens.length > 0 && !doneRef.current) {
       doneRef.current = true;
       onDoneRef.current?.();
     }
-  }, [count, tokens.length]);
+  }, [count, instant, tokens.length]);
 
-  const shown = tokens.slice(0, count).join("");
-  const hidden = tokens.slice(count).join("");
+  const visibleCount = instant ? tokens.length : count;
+  const shown = tokens.slice(0, visibleCount).join("");
+  const hidden = tokens.slice(visibleCount).join("");
 
   return (
     <Text style={[typeStyles.chat, style]} accessibilityLabel={text}>
